@@ -3,15 +3,16 @@ import streamlit as st
 import pandas as pd
 import pyodbc
 
-server = os.getenv('DB_SERVER')
-database = os.getenv('DB_NAME')
-username = os.getenv('DB_USER')
-password = os.getenv('DB_PASS')
+def get_secret(key):
+    return st.secrets.get(key) if hasattr(st, "secrets") and key in st.secrets else os.getenv(key)
+
+server = get_secret("DB_SERVER")
+database = get_secret("DB_NAME")
+username = get_secret("DB_USER")
+password = get_secret("DB_PASS")
 driver = '{ODBC Driver 17 for SQL Server}'
 
-conn_str = (
-    f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
-)
+conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 try:
     conn = pyodbc.connect(conn_str)
