@@ -1,5 +1,4 @@
 streamlit
 pandas
 matplotlib
-sqlalchemy
-psycopg2-binary
+pyodbc
